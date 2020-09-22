@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>695</height>
+    <height>599</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -20,6 +20,16 @@
    </size>
   </property>
   <property name="windowTitle">
+   <string>Voce Browser</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+    <normaloff>:/icons/vocebrowser.ico</normaloff>:/icons/vocebrowser.ico</iconset>
+  </property>
+  <property name="toolTip">
+   <string>Voce Browser</string>
+  </property>
+  <property name="statusTip">
    <string>Voce Browser</string>
   </property>
   <property name="documentMode">
@@ -38,7 +48,7 @@
    <property name="autoFillBackground">
     <bool>true</bool>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="mainVerticalLayout">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
@@ -50,7 +60,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="urlbar">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -72,12 +82,18 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="goButton">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>30</height>
+           </size>
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
@@ -85,8 +101,14 @@
           <property name="text">
            <string>Go</string>
           </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
           <property name="autoDefault">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="default">
            <bool>true</bool>
@@ -123,10 +145,13 @@
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="elideMode">
          <enum>Qt::ElideNone</enum>
+        </property>
+        <property name="usesScrollButtons">
+         <bool>false</bool>
         </property>
         <property name="documentMode">
          <bool>true</bool>
@@ -140,12 +165,12 @@
         <property name="tabBarAutoHide">
          <bool>false</bool>
         </property>
-        <widget class="QWidget" name="tab">
+        <widget class="QWidget" name="tab1">
          <attribute name="title">
           <string>Tab 1</string>
          </attribute>
         </widget>
-        <widget class="QWidget" name="tab_2">
+        <widget class="QWidget" name="tab2">
          <attribute name="title">
           <string>Tab 2</string>
          </attribute>
@@ -170,6 +195,12 @@
      <height>16777215</height>
     </size>
    </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -181,6 +212,9 @@
    </property>
    <property name="allowedAreas">
     <set>Qt::NoToolBarArea</set>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
    </property>
    <property name="floatable">
     <bool>false</bool>
@@ -196,8 +230,8 @@
    <addaction name="actionReload"/>
    <addaction name="actionHome"/>
    <addaction name="separator"/>
-   <addaction name="actionNew_tab"/>
-   <addaction name="actionNew_window"/>
+   <addaction name="actionNewTab"/>
+   <addaction name="actionNewWindow"/>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -232,9 +266,9 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionAbout_Voce"/>
+    <addaction name="actionAboutVoce"/>
     <addaction name="actionDocumentation"/>
-    <addaction name="actionAbout_Plugins"/>
+    <addaction name="actionAboutPlugins"/>
    </widget>
    <widget class="QMenu" name="menuCommands">
     <property name="title">
@@ -253,31 +287,58 @@
    </property>
   </action>
   <action name="actionBack">
+   <property name="icon">
+    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+     <normaloff>:/icons/previous.ico</normaloff>:/icons/previous.ico</iconset>
+   </property>
    <property name="text">
     <string>Back</string>
    </property>
   </action>
   <action name="actionForward">
+   <property name="icon">
+    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+     <normaloff>:/icons/next.ico</normaloff>:/icons/next.ico</iconset>
+   </property>
    <property name="text">
     <string>Forward</string>
    </property>
   </action>
   <action name="actionReload">
+   <property name="icon">
+    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+     <normaloff>:/icons/refresh.ico</normaloff>:/icons/refresh.ico</iconset>
+   </property>
    <property name="text">
     <string>Reload</string>
    </property>
   </action>
   <action name="actionHome">
+   <property name="icon">
+    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+     <normaloff>:/icons/flat-home.ico</normaloff>:/icons/flat-home.ico</iconset>
+   </property>
    <property name="text">
     <string>Home</string>
    </property>
   </action>
-  <action name="actionNew_tab">
+  <action name="actionNewTab">
+   <property name="icon">
+    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+     <normaloff>:/icons/tab-new.ico</normaloff>:/icons/tab-new.ico</iconset>
+   </property>
    <property name="text">
     <string>New tab</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
+   </property>
   </action>
-  <action name="actionNew_window">
+  <action name="actionNewWindow">
+   <property name="icon">
+    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+     <normaloff>:/icons/window-new.ico</normaloff>:/icons/window-new.ico</iconset>
+   </property>
    <property name="text">
     <string>New window</string>
    </property>
@@ -302,7 +363,7 @@
     <string>Bookmarks</string>
    </property>
   </action>
-  <action name="actionAbout_Voce">
+  <action name="actionAboutVoce">
    <property name="text">
     <string>About Voce</string>
    </property>
@@ -312,7 +373,7 @@
     <string>Documentation</string>
    </property>
   </action>
-  <action name="actionAbout_Plugins">
+  <action name="actionAboutPlugins">
    <property name="text">
     <string>About Plugins</string>
    </property>
@@ -323,6 +384,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../browser/vocebrowser/icons/resource.qrc"/>
+ </resources>
  <connections/>
 </ui>

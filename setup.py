@@ -142,7 +142,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['click','PyQt5'],  # Optional
+    install_requires=['click','PyQt5==5.12.3','PyQtWebEngine==5.12.1'],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -166,7 +166,7 @@ setup(
     # executes the function `main` from this package when invoked:
     entry_points={  # Optional
         'console_scripts': [
-            'vocebrowser=vocebrowser.voce:run',
+            'vocebrowser=vocebrowser.voce:main',
         ],
     },
 

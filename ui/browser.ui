@@ -76,8 +76,17 @@
             <height>30</height>
            </size>
           </property>
+          <property name="frame">
+           <bool>true</bool>
+          </property>
+          <property name="cursorPosition">
+           <number>0</number>
+          </property>
           <property name="placeholderText">
            <string>http://</string>
+          </property>
+          <property name="clearButtonEnabled">
+           <bool>false</bool>
           </property>
          </widget>
         </item>

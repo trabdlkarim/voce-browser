@@ -10,10 +10,16 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWebEngineWidgets import QWebEngineView , QWebEnginePage
 
+class UrlBar(QtWidgets.QLineEdit):
+    def focusInEvent(self,event):
+        super().focusInEvent(event)
+        self.selectAll()
+
+
+
 class BrowserUi(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setWindowModality(QtCore.Qt.ApplicationModal)
         MainWindow.resize(822, 695)
         MainWindow.setMinimumSize(QtCore.QSize(650, 450))
         MainWindow.setDocumentMode(True)
@@ -39,7 +45,7 @@ class BrowserUi(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
 
-        self.urlbar = QtWidgets.QLineEdit(self.centralwidget)
+        self.urlbar = UrlBar(self.centralwidget)
         self.urlbar.setObjectName("urlbar")
         self.urlbar.setMinimumSize(QtCore.QSize(542, 30))
         self.horizontalLayout.addWidget(self.urlbar)
@@ -108,6 +114,9 @@ class BrowserUi(object):
         self.menuCommands = QtWidgets.QMenu(self.menuBar)
         self.menuCommands.setObjectName("menuCommands")
         MainWindow.setMenuBar(self.menuBar)
+
+        self.actionUrlSelected = QtWidgets.QAction(self.urlbar)
+        self.actionUrlSelected.setObjectName("actionUrlSelected")
 
         self.actionBack = QtWidgets.QAction(MainWindow)
         backIcon = QtGui.QIcon()
@@ -191,7 +200,7 @@ class BrowserUi(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Voce Browser"))
-        self.urlbar.setPlaceholderText(_translate("MainWindow", "http://"))
+        self.urlbar.setPlaceholderText(_translate("MainWindow", "Search DuckDuckGo or type a URL"))
         self.goButton.setText(_translate("MainWindow", "Go"))
         #self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Tab 1"))
         #self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Tab 2"))
@@ -210,7 +219,8 @@ class BrowserUi(object):
         self.actionNewTab.setShortcut(_translate("MainWindow", "Ctrl+T"))
         self.actionNewWindow.setText(_translate("MainWindow", "New window"))
         self.actionNewWindow.setShortcut(_translate("MainWindow", "Ctrl+N"))
-        self.actionIncognito_window.setText(_translate("MainWindow", "Incognito Mode"))
+        self.actionUrlSelected.setShortcut(_translate("MainWindow", "Ctrl+L"))
+        self.actionIncognito_window.setText(_translate("MainWindow", "Incognito mode"))
         self.actionHistory.setText(_translate("MainWindow", "History"))
         self.actionDownloads.setText(_translate("MainWindow", "Downloads"))
         self.actionBookmarks.setText(_translate("MainWindow", "Bookmarks"))

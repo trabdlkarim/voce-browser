@@ -10,7 +10,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import QtCore
 import sys
 from PyQt5.QtWebEngineWidgets import  QWebEngineSettings
-from browser import VoceBrowser
+from vocebrowser.browser import VoceBrowser
 
 
 class Voce(object):
@@ -34,6 +34,7 @@ def main(argv):
 
     voce = VoceBrowser()
     voce.launch()
+    #voce.assistant.welcome("Hello, welcome to Voce Browser. My name is Voce, your browser assistant. How can I help you?")
 
     return sys.exit(app.exec())
 

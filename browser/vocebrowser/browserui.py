@@ -48,6 +48,7 @@ class BrowserUi(object):
         self.urlbar = UrlBar(self.centralwidget)
         self.urlbar.setObjectName("urlbar")
         self.urlbar.setMinimumSize(QtCore.QSize(542, 30))
+        self.urlbar.setClearButtonEnabled(True)
         self.horizontalLayout.addWidget(self.urlbar)
 
         self.goButton = QtWidgets.QPushButton(self.centralwidget)

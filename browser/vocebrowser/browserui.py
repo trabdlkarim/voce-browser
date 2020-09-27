@@ -6,9 +6,12 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+import os
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWebEngineWidgets import QWebEngineView , QWebEnginePage
+
+import vocebrowser
 
 class UrlBar(QtWidgets.QLineEdit):
     def focusInEvent(self,event):
@@ -25,7 +28,8 @@ class BrowserUi(object):
         MainWindow.setDocumentMode(True)
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("icons/vocebrowser.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(os.path.join(vocebrowser.QRC_ICON_DIR,"vocebrowser.png")),
+                                     QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -121,37 +125,37 @@ class BrowserUi(object):
 
         self.actionBack = QtWidgets.QAction(MainWindow)
         backIcon = QtGui.QIcon()
-        backIcon.addPixmap(QtGui.QPixmap("icons/previous.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        backIcon.addPixmap(QtGui.QPixmap(os.path.join(vocebrowser.QRC_ICON_DIR,"previous.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionBack.setIcon(backIcon)
         self.actionBack.setObjectName("actionBack")
 
         self.actionForward = QtWidgets.QAction(MainWindow)
         forwardIcon = QtGui.QIcon()
-        forwardIcon.addPixmap(QtGui.QPixmap("icons/next.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        forwardIcon.addPixmap(QtGui.QPixmap(os.path.join(vocebrowser.QRC_ICON_DIR,"next.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionForward.setIcon(forwardIcon)
         self.actionForward.setObjectName("actionForward")
 
         self.actionReload = QtWidgets.QAction(MainWindow)
         reloadIcon = QtGui.QIcon()
-        reloadIcon.addPixmap(QtGui.QPixmap("icons/refresh.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        reloadIcon.addPixmap(QtGui.QPixmap(os.path.join(vocebrowser.QRC_ICON_DIR,"refresh.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionReload.setIcon(reloadIcon)
         self.actionReload.setObjectName("actionReload")
 
         self.actionHome = QtWidgets.QAction(MainWindow)
         homeIcon = QtGui.QIcon()
-        homeIcon.addPixmap(QtGui.QPixmap("icons/flat-home.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        homeIcon.addPixmap(QtGui.QPixmap(os.path.join(vocebrowser.QRC_ICON_DIR,"flat-home.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionHome.setIcon(homeIcon)
         self.actionHome.setObjectName("actionHome")
 
         self.actionNewTab = QtWidgets.QAction(MainWindow)
         newTabIcon = QtGui.QIcon()
-        newTabIcon.addPixmap(QtGui.QPixmap("icons/tab-new.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        newTabIcon.addPixmap(QtGui.QPixmap(os.path.join(vocebrowser.QRC_ICON_DIR,"tab-new.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionNewTab.setIcon(newTabIcon)
         self.actionNewTab.setObjectName("actionNewTab")
 
         self.actionNewWindow = QtWidgets.QAction(MainWindow)
         newWinIcon = QtGui.QIcon()
-        newWinIcon.addPixmap(QtGui.QPixmap("icons/window-new.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        newWinIcon.addPixmap(QtGui.QPixmap(os.path.join(vocebrowser.QRC_ICON_DIR,"window-new.ico")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionNewWindow.setIcon(newWinIcon)
         self.actionNewWindow.setObjectName("actionNewWindow")
 

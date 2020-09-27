@@ -7,4 +7,4 @@ Created on Tue Sep 22 18:18:09 2020
 """
 import os
 
-QRC_DIR = os.path.dirname(__file__)
+QRC_ICON_DIR = os.path.join(os.path.dirname(__file__),"icons")

@@ -142,7 +142,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['click','PyQt5==5.12.3','PyQtWebEngine==5.12.1','speechrecognition','PyAudio'],  # Optional
+    install_requires=['click','PyQt5==5.12.3','PyQtWebEngine==5.12.1','speechrecognition','PyAudio','playsound','pyttsx3','gtts','pydub'],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"

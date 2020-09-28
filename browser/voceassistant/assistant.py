@@ -26,7 +26,7 @@ import requests
 
 from pydub import AudioSegment
 from pydub.playback import play
-
+import threading
 
 def gen_rand_string(length=16):
     fname = "".join(random.choice(string.ascii_uppercase +
@@ -66,6 +66,7 @@ class VoceAssistant(object):
         self.recognizer = VoceRecognizer()
         self.tmp_fname = os.path.join(tempfile.gettempdir(),"voce-" + gen_rand_string() +".mp3")
         self.signals = AssistantSignals()
+        self.stop_event = threading.Event()
 
     def welcome(self):
         text = "Hello, welcome to Voce Browser. My name is Voce, your browser assistant. How can I help you?"
@@ -74,7 +75,7 @@ class VoceAssistant(object):
     def listen(self):
         with speech.Microphone() as mic:
             text_data = ""
-            voice_data  = self.recognizer.listen(mic)
+            voice_data  = self.recognizer.listen(mic,5,5)
             try:
                 text_data = self.recognizer.recognize_google(voice_data)
             except speech.UnknownValueError:
@@ -151,7 +152,7 @@ class VoceAssistant(object):
          self.signals.homepage.emit()
 
     def run_forever(self):
-        while True:
+        while not self.stop_event.is_set():
             voice_cmd = self.listen()
             if voice_cmd:
                 if self.check_voice_cmd(["open tab","open new tab"],voice_cmd):

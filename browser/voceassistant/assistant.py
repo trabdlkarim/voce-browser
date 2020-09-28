@@ -7,23 +7,12 @@ Created on Fri Sep 25 21:52:56 2020
 """
 from PyQt5 import QtCore
 import speech_recognition as speech
-import playsound
+
 import gtts
 from gtts import gTTS
 import random, string
-from time import ctime
-
-import ssl
-import certifi
-import time
 import os
 import tempfile
-import subprocess
-import pyttsx3
-import bs4 as bs
-import urllib.request
-import requests
-
 from pydub import AudioSegment
 from pydub.playback import play
 import threading

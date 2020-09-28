@@ -3,8 +3,7 @@
 ![Python v3.7](https://img.shields.io/github/pipenv/locked/python-version/metabolize/rq-dashboard-on-heroku) ![Build passing](https://img.shields.io/github/workflow/status/actions/toolkit/Main%20workflow) ![Speech Recognition](https://img.shields.io/badge/speech-recognition-important) ![gTTS](https://img.shields.io/badge/gTTS-2.1.1-blueviolet) ![PyQt5](https://img.shields.io/badge/PyQt5-5.12.3-red)
 
 
-Voce Browser is a chromium based voice controlled browser.
-
+Voce Browser is a chromium based voice controlled browser using PyQtWebEngine. It has all the basic browser features like Chrome or Firefox and in addition it can be controlled with voice commands.
 
 ## Table of contents
 * [Description](#description)
@@ -14,10 +13,10 @@ Voce Browser is a chromium based voice controlled browser.
 * [License](#license)
 
 ## Description
-This project is simple Lorem ipsum dolor generator.
+This project uses the Qt GUI library Python binding as user interface. Voce Browser can be given voice commands which are translated and then exceuted using google speech recognition API. Its web engine is PyQtWebEngine, a chromium based engine.
 
 ## Features
-Some list of project feature
+Voce has all standard browser features and voice commands capabilities
 
 ## Technologies
 This project is created with:
@@ -28,12 +27,20 @@ This project is created with:
 * pydub
 	
 ## Setup
-To run this project, install it locally using pip:
+To run this project, install it locally using python or pip:
 
 ```
 $ python setup.py build
 $ python setup.py install
 
 ```
-## License ![MIT License](https://img.shields.io/github/license/trabdlkarim/comu-ce-summer-internship)
+
+or
+
+```
+$ python setup.py bdist_wheel
+$ pip dist/*.whl install
+
+```
+## License ![MIT License](https://img.shields.io/github/license/trabdlkarim/voce-browser)
 Project under MIT License

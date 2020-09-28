@@ -118,7 +118,7 @@ class VoceAssistant(object):
         self.signals.openNewTab.emit()
 
     def do_close_tab(self):
-        self.speak("Okay, cloasing current tab")
+        self.speak("Okay, closing current tab")
         self.signals.closeCurrentTab.emit()
 
 
@@ -155,7 +155,10 @@ class VoceAssistant(object):
         while not self.stop_event.is_set():
             voice_cmd = self.listen()
             if voice_cmd:
-                if self.check_voice_cmd(["open tab","open new tab"],voice_cmd):
+                if self.check_voice_cmd(["Voce","voice","assistant"],voice_cmd):
+                    self.speak("Yes, I am listening to you. Tell me what to do.")
+
+                elif self.check_voice_cmd(["open tab","open new tab"],voice_cmd):
                     self.do_open_new_tab()
                 elif self.check_voice_cmd(["open window","open new window"],voice_cmd):
                     self.do_open_new_window()
@@ -174,4 +177,4 @@ class VoceAssistant(object):
                 elif self.check_voice_cmd(["exit","quit"],voice_cmd):
                     self.do_exit_browser()
                 else:
-                    self.speak("Sorry, I did not get that. Please repead again!")
+                    self.speak("Sorry, I did not get that. Please repeat again!")

@@ -2,6 +2,7 @@
 venv/
 build/
 dist/
+VideoDecodeStats/
 *.egg-info/
 *.egg
 *.py[cod]

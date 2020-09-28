@@ -20,7 +20,7 @@ class Voce(object):
       def run(self,argv):
           pass
 
-def main(argv):
+def main(argv=sys.argv):
 
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True) #enable highdpi scaling
 
@@ -39,4 +39,4 @@ def main(argv):
     return sys.exit(app.exec())
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()

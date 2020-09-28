@@ -8,6 +8,7 @@ Created on Mon Sep 21 18:09:34 2020
 
 import sys
 
+
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QMessageBox
@@ -48,7 +49,9 @@ class BrowserWindow(QtWidgets.QMainWindow):
 
         self.home_url = QUrl('https://duckduckgo.com/')
         self.appName = "Voce Browser"
+
         self.assistant = VoceAssistant()
+
 
         self.profile = QWebEngineProfile(self)
         self.ui = BrowserUi()
@@ -176,6 +179,7 @@ class BrowserWindow(QtWidgets.QMainWindow):
         if answer == QMessageBox.Yes:
             event.accept()
             self.deleteLater()
+            self.assistant.stop_event.set()
            # QtWidgets.QApplication.quit()
 
         else:
@@ -183,7 +187,7 @@ class BrowserWindow(QtWidgets.QMainWindow):
 
     def say_welcome(self,webView):
         if BrowserWindow.isFirstWindow:
-            VoceBrowser.assistant.welcome()
+            self.assistant.welcome()
             BrowserWindow.isFirstWindow = False
 
 
@@ -193,7 +197,6 @@ class VoceBrowser(object):
 
     home_url = QUrl('https://duckduckgo.com/')
     appName = "Voce Browser"
-    assistant = VoceAssistant()
     def __init__(self):
         pass
 
@@ -208,7 +211,7 @@ class VoceBrowser(object):
 
 
     def launch(self):
-        webView = VoceBrowser.create_browser_window(VoceBrowser.home_url)
+        VoceBrowser.create_browser_window(VoceBrowser.home_url)
 
 
 class AssistantRunnable(QtCore.QRunnable):

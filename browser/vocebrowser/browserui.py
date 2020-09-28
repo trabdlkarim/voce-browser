@@ -14,9 +14,9 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView , QWebEnginePage
 import vocebrowser
 
 class UrlBar(QtWidgets.QLineEdit):
-    def focusInEvent(self,event):
-        super().focusInEvent(event)
-        self.selectAll()
+    def selectAll(self):
+        super().selectAll()
+        self.setFocus()
 
 
 
@@ -54,6 +54,7 @@ class BrowserUi(object):
         self.urlbar.setMinimumSize(QtCore.QSize(542, 30))
         self.urlbar.setClearButtonEnabled(True)
         self.horizontalLayout.addWidget(self.urlbar)
+        QtWidgets.QShortcut("Ctrl+L", MainWindow, activated=self.urlbar.selectAll)
 
         self.goButton = QtWidgets.QPushButton(self.centralwidget)
 
@@ -224,7 +225,7 @@ class BrowserUi(object):
         self.actionNewTab.setShortcut(_translate("MainWindow", "Ctrl+T"))
         self.actionNewWindow.setText(_translate("MainWindow", "New window"))
         self.actionNewWindow.setShortcut(_translate("MainWindow", "Ctrl+N"))
-        self.actionUrlSelected.setShortcut(_translate("MainWindow", "Ctrl+L"))
+
         self.actionIncognito_window.setText(_translate("MainWindow", "Incognito mode"))
         self.actionHistory.setText(_translate("MainWindow", "History"))
         self.actionDownloads.setText(_translate("MainWindow", "Downloads"))

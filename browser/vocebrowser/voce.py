@@ -34,7 +34,7 @@ def main(argv=sys.argv):
 
     voce = VoceBrowser()
     voce.launch()
-    #voce.assistant.welcome("Hello, welcome to Voce Browser. My name is Voce, your browser assistant. How can I help you?")
+
 
     return sys.exit(app.exec())
 

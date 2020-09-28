@@ -8,7 +8,7 @@ Created on Mon Sep 21 18:09:34 2020
 
 import sys
 
-
+import PyQt5
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QUrl
 from PyQt5.QtWidgets import QMessageBox
@@ -25,9 +25,23 @@ from voceassistant.assistant import VoceAssistant
 
 
 class WebView(QWebEngineView):
+
+    devToolsRequested = QtCore.pyqtSignal(QWebEnginePage)
+
     def __init__(self,parent=None):
         self.parent = parent
         super(WebView,self).__init__(parent)
+
+    def contextMenuEvent(self, event):
+        menu  = self.page().createStandardContextMenu()
+        actions = menu.actions()
+        inspectElement =  self.page().action(QWebEnginePage.InspectElement)
+        if inspectElement not in actions:
+            action = QtWidgets.QAction()
+            action.setText("Inspect")
+            action.triggered.connect(lambda: self.devToolsRequested.emit(self.page()) )
+            menu.addAction(action)
+        menu.exec_(event.globalPos())
 
     def createWindow(self, winType):
         if winType == QWebEnginePage.WebBrowserTab:
@@ -43,7 +57,7 @@ class WebView(QWebEngineView):
 
 
 class BrowserWindow(QtWidgets.QMainWindow):
-    isFirstWindow = True
+    VOCE_INITIALIZED = False
     def __init__(self,*args,**kwargs):
         super(BrowserWindow, self).__init__(*args, **kwargs)
 
@@ -74,16 +88,15 @@ class BrowserWindow(QtWidgets.QMainWindow):
 
         self.setCentralWidget(self.ui.centralwidget)
 
+        self.assistant.signals.welcome.connect(self.assistant.welcome)
         self.assistant.signals.openNewTab.connect(self.open_new_tab)
         self.assistant.signals.closeCurrentTab.connect(lambda: self.onclose_tab(self.ui.tabWidget.currentIndex()))
 
         self.assistant.signals.openNewWindow.connect(self.onclick_new_window)
         self.assistant.signals.closeCurrentWindow.connect(self.close)
 
+        self.ass_process = AssistantRunnable(self.assistant.run_forever)
 
-
-        process = AssistantRunnable(self.assistant.run_forever)
-        process.start()
 
 
     def open_new_tab(self,url=None, title="New Tab"):
@@ -99,8 +112,25 @@ class BrowserWindow(QtWidgets.QMainWindow):
         webView.urlChanged.connect(lambda qurl, view = webView: self.update_address_bar(qurl, view))
         webView.titleChanged.connect(lambda _, i = index, view = webView:self.update_tab_title(i, view))
         webView.iconChanged.connect(lambda _,i=index,view=webView:self.update_favIcon(i,view))
-        webView.loadFinished.connect(lambda _,view=webView:self.say_welcome(view))
+        webView.loadFinished.connect(self.init_voce)
+        webView.devToolsRequested.connect(self.showDevToolsPage)
+
+        webView.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
+        webView.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
+        webView.settings().setAttribute(QWebEngineSettings.ErrorPageEnabled, True)
+        webView.settings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
+
         return webView
+
+
+    def init_voce(self,isCompleted):
+        if isCompleted:
+            if not BrowserWindow.VOCE_INITIALIZED:
+                self.assistant.signals.welcome.emit()
+                BrowserWindow.VOCE_INITIALIZED = True
+                self.ass_process.start()
+
+
 
     def update_favIcon(self,tabIndex,webView):
         self.ui.tabWidget.setTabIcon(tabIndex, webView.icon())
@@ -185,20 +215,18 @@ class BrowserWindow(QtWidgets.QMainWindow):
         else:
             event.ignore()
 
-    def say_welcome(self,webView):
-        if BrowserWindow.isFirstWindow:
-            self.assistant.welcome()
-            BrowserWindow.isFirstWindow = False
 
-
+    def showDevToolsPage(self,page):
+        devToolsView = QWebEngineView()
+        page.setDevToolsPage(devToolsView.page()) # same as devToolsView.setInspectedPage(page)
+        i = self.ui.tabWidget.addTab(devToolsView, page.title())
+        self.ui.tabWidget.setCurrentIndex(i)
 
 
 class VoceBrowser(object):
 
     home_url = QUrl('https://duckduckgo.com/')
     appName = "Voce Browser"
-    def __init__(self):
-        pass
 
     @staticmethod
     def create_browser_window(url=None, offRecord=False):
@@ -209,9 +237,9 @@ class VoceBrowser(object):
         window.show()
         return webView
 
-
     def launch(self):
         VoceBrowser.create_browser_window(VoceBrowser.home_url)
+
 
 
 class AssistantRunnable(QtCore.QRunnable):

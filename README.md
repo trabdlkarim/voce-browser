@@ -7,6 +7,8 @@ Voce Browser is a chromium based voice controlled browser using PyQtWebEngine. I
 
 ![Voce Browser](https://github.com/trabdlkarim/voce-browser/blob/master/screenshots/VoceScreenshot3.png)
 
+![Voce Browser](https://github.com/trabdlkarim/voce-browser/blob/master/screenshots/VoceScreenshot6.png)
+
 ## Table of contents
 * [Description](#description)
 * [Features](#features)

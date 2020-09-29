@@ -1,0 +1,26 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>browser-web-icon -96x96.png</file>
+    <file>browser-web-icon-72x72.png</file>
+    <file>browser-web-icon-128x128.png</file>
+    <file>document-url.ico</file>
+    <file>flat-addition.ico</file>
+    <file>flat-home.ico</file>
+    <file>shadow-home.ico</file>
+    <file>tab-new.ico</file>
+    <file>window-new.ico</file>
+    <file>downloads.ico</file>
+    <file>downloads-icon-32x32.png</file>
+    <file>next.ico</file>
+    <file>next-icon.png</file>
+    <file>previous.ico</file>
+    <file>previous-icon.png</file>
+    <file>refresh.ico</file>
+    <file>refresh-icon-32x32.png</file>
+    <file>search.ico</file>
+    <file>Search-icon.png</file>
+    <file>star.ico</file>
+    <file>star-icon.png</file>
+    <file>vocebrowser.ico</file>
+  </qresource>
+</RCC>

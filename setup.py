@@ -117,7 +117,7 @@ setup(
 
     # When your source code is in a subdirectory under the project root, e.g.
     # `src/`, it is necessary to specify the `package_dir` argument.
-    package_dir={'': 'browser'},  # Optional
+    package_dir={'': 'lib'},  # Optional
 
     # You can just specify package directories manually here if your project is
     # simple. Or you can use find_packages().
@@ -128,7 +128,7 @@ setup(
     #
     #   py_modules=["my_module"],
     #
-    packages=find_packages(where='browser'),  # Required
+    packages=find_packages(where='lib'),  # Required
     include_package_data=True,
     # Specify which Python versions you support. In contrast to the
     # 'Programming Language' classifiers above, 'pip install' will check this
@@ -166,7 +166,7 @@ setup(
     # executes the function `main` from this package when invoked:
     entry_points={  # Optional
         'console_scripts': [
-            'vocebrowser=vocebrowser.voce:main',
+            'vocebrowser=vocebrowser.app:main',
         ],
     },
 

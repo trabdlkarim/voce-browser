@@ -31,12 +31,13 @@ This project is created with:
 * pydub
 	
 ## Setup
-To run this project, install it locally using python or pip:
+To run the browser, first download or git clone this project and then install it locally in your python environment.
+Supposing that you are in the project root directory, proceed as follows:
 
 ```
 $ python setup.py build
 $ python setup.py install
-
+$ vocebrowser
 ```
 
 or
@@ -44,7 +45,8 @@ or
 ```
 $ python setup.py bdist_wheel
 $ pip dist/*.whl install
-
+$ ./bin/startbrowser
 ```
+
 ## License ![MIT License](https://img.shields.io/github/license/trabdlkarim/voce-browser)
 Project under MIT License

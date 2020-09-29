@@ -44,7 +44,7 @@ or
 
 ```
 $ python setup.py bdist_wheel
-$ pip dist/*.whl install
+$ pip ./dist/*.whl install
 $ ./bin/startbrowser
 ```
 

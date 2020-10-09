@@ -8,3 +8,5 @@ Created on Tue Sep 22 18:18:09 2020
 import os
 
 QRC_ICON_DIR = os.path.join(os.path.dirname(__file__),"icons")
+
+LOCAL_HTML_DIR = os.path.join(os.path.dirname(__file__),"html")

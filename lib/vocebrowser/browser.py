@@ -68,6 +68,11 @@ class BrowserWindow(QtWidgets.QMainWindow):
         self.ui.goButton.clicked.connect(self.goto_current_url)
 
         self.ui.actionExit.triggered.connect(self.close)
+        self.ui.actionIncognitoWindow.triggered.connect(lambda offMode =True: self.onclick_new_window(offMode))
+        self.ui.actionHistory.triggered.connect(lambda _, qurl=VoceBrowser.history_url : self.open_new_tab(url=qurl))
+        self.ui.actionDownloads.triggered.connect(lambda _, qurl=VoceBrowser.downloads_url : self.open_new_tab(url=qurl))
+        self.ui.actionBookmarks.triggered.connect(lambda  _, qurl=VoceBrowser.bookmarks_url : self.open_new_tab(url=qurl))
+        self.ui.actionSettings.triggered.connect(lambda  _, qurl=VoceBrowser.settings_url : self.open_new_tab(url=qurl))
 
         self.ui.actionNewWindow.triggered.connect(self.onclick_new_window)
         self.ui.actionNewTab.triggered.connect(self.open_new_tab)
@@ -76,6 +81,7 @@ class BrowserWindow(QtWidgets.QMainWindow):
         self.ui.actionForward.triggered.connect(lambda:self.ui.tabWidget.currentWidget().forward())
         self.ui.actionReload.triggered.connect(lambda:self.ui.tabWidget.currentWidget().reload())
         self.ui.actionHome.triggered.connect(self.go_home)
+
 
         self.ui.tabWidget.currentChanged.connect(self.onchange_current_tab)
         self.ui.tabWidget.tabCloseRequested.connect(self.onclose_tab)
@@ -105,6 +111,9 @@ class BrowserWindow(QtWidgets.QMainWindow):
 
         if not url:
             url = VoceBrowser.newtab_url
+
+        elif type(url) == str:
+            url = QUrl(url)
 
         webView.page().setUrl(url)
         webView.setFocus()
@@ -145,7 +154,7 @@ class BrowserWindow(QtWidgets.QMainWindow):
         else:
             self.ui.tabWidget.removeTab(i)
 
-    def onclick_new_window(self):
+    def onclick_new_window(self,offMode=False):
         new_window = BrowserWindow()
         new_window.open_new_tab(VoceBrowser.home_url)
         new_window.show()
@@ -228,7 +237,12 @@ class BrowserWindow(QtWidgets.QMainWindow):
 
 class VoceBrowser(QObject):
     home_url = QUrl('voce://welcome')
-    newtab_url =QUrl('voce://newtab')
+    newtab_url = QUrl('voce://newtab')
+    history_url = QUrl('voce://history')
+    downloads_url = QUrl('voce://downloads')
+    settings_url = QUrl('voce://settings')
+    bookmarks_url = QUrl('voce://bookmarks')
+
     appName = "Voce Browser"
     search_engine ="https://duckduckgo.com/"
     openWindowsCount = 0

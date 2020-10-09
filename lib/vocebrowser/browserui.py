@@ -20,8 +20,8 @@ class UrlBar(QtWidgets.QLineEdit):
 class BrowserUi(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(822, 695)
-        MainWindow.setMinimumSize(QtCore.QSize(650, 450))
+        MainWindow.resize(900, 600)
+        MainWindow.setMinimumSize(QtCore.QSize(900, 600))
         MainWindow.setDocumentMode(True)
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         icon = QtGui.QIcon()
@@ -39,7 +39,7 @@ class BrowserUi(object):
         self.mainVerticalLayout.setObjectName("mainVerticalLayout")
 
         self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
+        self.verticalLayout.setSizeConstraint(QtWidgets.QLayout.SetMaximumSize)
         self.verticalLayout.setSpacing(4)
         self.verticalLayout.setObjectName("verticalLayout")
 

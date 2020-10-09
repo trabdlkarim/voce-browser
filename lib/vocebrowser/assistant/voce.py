@@ -42,12 +42,13 @@ class AssistantSignals(QtCore.QObject):
     back = QtCore.pyqtSignal()
     forward = QtCore.pyqtSignal()
     homepage = QtCore.pyqtSignal()
-    bye  = QtCore.pyqtBoundSignal()
+    bye  = QtCore.pyqtSignal()
+    search = QtCore.pyqtSignal(str)
 
 
 
 
-class VoceAssistant(object):
+class VoceAssistant(QtCore.QObject):
     def __init__(self,name="Voce",age=None,gender=None,lang=None):
         self.name = name
         self.age = age
@@ -57,6 +58,7 @@ class VoceAssistant(object):
         self.tmp_fname = os.path.join(tempfile.gettempdir(),"voce-" + gen_rand_string() +".mp3")
         self.signals = AssistantSignals()
         self.stop_event = threading.Event()
+        self.isRunning = False
 
     def welcome(self):
         text = "Hello, welcome to Voce Browser. My name is Voce, your browser assistant. How can I help you?"
@@ -100,8 +102,17 @@ class VoceAssistant(object):
         reply = "My name is " + self.name
         self.speak(reply)
 
-    def do_search(self,keywords):
-        pass
+    def do_search(self,cmd):
+        kwords = cmd.split()
+        if len(kwords)>1:
+            kwords = kwords[1:]
+            query = ""
+            for w in kwords:
+                query += w
+            self.speak("Searching "+query+" on the web for you.")
+            self.signals.search.emit(query)
+        else :
+            self.speak("What do you want me to search ?")
 
     def do_open_new_tab(self):
         self.speak("Opening new tab for you")
@@ -142,28 +153,43 @@ class VoceAssistant(object):
          self.signals.homepage.emit()
 
     def run_forever(self):
+        self.welcome()
         while not self.stop_event.is_set():
             voice_cmd = self.listen()
             if voice_cmd:
                 if self.check_voice_cmd(["Voce","voice","assistant"],voice_cmd):
                     self.speak("Yes, I am listening to you. Tell me what to do.")
 
+                elif self.check_voice_cmd(["Thank you","Thanks"],voice_cmd):
+                    self.speak("You are welcome")
+
+                elif self.check_voice_cmd(["Search","Lookup","Look for"],voice_cmd):
+                    self.do_search(voice_cmd)
+
                 elif self.check_voice_cmd(["open tab","open new tab"],voice_cmd):
                     self.do_open_new_tab()
+
                 elif self.check_voice_cmd(["open window","open new window"],voice_cmd):
                     self.do_open_new_window()
+
                 elif self.check_voice_cmd(["close window","close current window"],voice_cmd):
                     self.do_close_window()
+
                 elif self.check_voice_cmd(["close tab","close current tab"],voice_cmd):
                     self.do_close_tab()
+
                 elif self.check_voice_cmd(["go back","previous page"],voice_cmd):
                     self.do_goback()
+
                 elif self.check_voice_cmd(["go forward","next page"],voice_cmd):
                     self.do_goforward()
+
                 elif self.check_voice_cmd(["go home","homepage"],voice_cmd):
                     self.do_gohome()
+
                 elif self.check_voice_cmd(["reload page","reload current page","refresh page"],voice_cmd):
                     self.do_reload_page()
+
                 elif self.check_voice_cmd(["exit","quit"],voice_cmd):
                     self.do_exit_browser()
                 else:

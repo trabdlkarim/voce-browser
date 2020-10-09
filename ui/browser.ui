@@ -23,7 +23,7 @@
    <string>Voce Browser</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+   <iconset resource="../lib/vocebrowser/icons/resource.qrc">
     <normaloff>:/icons/vocebrowser.ico</normaloff>:/icons/vocebrowser.ico</iconset>
   </property>
   <property name="toolTip">
@@ -49,13 +49,16 @@
     <bool>true</bool>
    </property>
    <layout class="QVBoxLayout" name="mainVerticalLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetMaximumSize</enum>
+    </property>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
        <number>4</number>
       </property>
       <property name="sizeConstraint">
-       <enum>QLayout::SetDefaultConstraint</enum>
+       <enum>QLayout::SetMinAndMaxSize</enum>
       </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -297,7 +300,7 @@
   </action>
   <action name="actionBack">
    <property name="icon">
-    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+    <iconset resource="../lib/vocebrowser/icons/resource.qrc">
      <normaloff>:/icons/previous.ico</normaloff>:/icons/previous.ico</iconset>
    </property>
    <property name="text">
@@ -306,7 +309,7 @@
   </action>
   <action name="actionForward">
    <property name="icon">
-    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+    <iconset resource="../lib/vocebrowser/icons/resource.qrc">
      <normaloff>:/icons/next.ico</normaloff>:/icons/next.ico</iconset>
    </property>
    <property name="text">
@@ -315,7 +318,7 @@
   </action>
   <action name="actionReload">
    <property name="icon">
-    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+    <iconset resource="../lib/vocebrowser/icons/resource.qrc">
      <normaloff>:/icons/refresh.ico</normaloff>:/icons/refresh.ico</iconset>
    </property>
    <property name="text">
@@ -324,7 +327,7 @@
   </action>
   <action name="actionHome">
    <property name="icon">
-    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+    <iconset resource="../lib/vocebrowser/icons/resource.qrc">
      <normaloff>:/icons/flat-home.ico</normaloff>:/icons/flat-home.ico</iconset>
    </property>
    <property name="text">
@@ -333,7 +336,7 @@
   </action>
   <action name="actionNewTab">
    <property name="icon">
-    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+    <iconset resource="../lib/vocebrowser/icons/resource.qrc">
      <normaloff>:/icons/tab-new.ico</normaloff>:/icons/tab-new.ico</iconset>
    </property>
    <property name="text">
@@ -345,7 +348,7 @@
   </action>
   <action name="actionNewWindow">
    <property name="icon">
-    <iconset resource="../browser/vocebrowser/icons/resource.qrc">
+    <iconset resource="../lib/vocebrowser/icons/resource.qrc">
      <normaloff>:/icons/window-new.ico</normaloff>:/icons/window-new.ico</iconset>
    </property>
    <property name="text">
@@ -394,7 +397,7 @@
   </action>
  </widget>
  <resources>
-  <include location="../browser/vocebrowser/icons/resource.qrc"/>
+  <include location="../lib/vocebrowser/icons/resource.qrc"/>
  </resources>
  <connections/>
 </ui>

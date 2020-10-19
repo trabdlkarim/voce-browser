@@ -1,5 +1,5 @@
 # Voce Browser
-![MIT License](https://img.shields.io/github/license/trabdlkarim/voce-browser) ![Platforms](https://img.shields.io/powershellgallery/p/DNS.1.1.1.1)
+![GPL License](https://img.shields.io/badge/license-GPLv3-green) ![Platforms](https://img.shields.io/powershellgallery/p/DNS.1.1.1.1)
 ![Python v3.7](https://img.shields.io/github/pipenv/locked/python-version/metabolize/rq-dashboard-on-heroku) ![Build passing](https://img.shields.io/github/workflow/status/actions/toolkit/Main%20workflow) ![Speech Recognition](https://img.shields.io/badge/speech-recognition-important) ![gTTS](https://img.shields.io/badge/gTTS-2.1.1-blueviolet) ![PyQt5](https://img.shields.io/badge/PyQt5-5.12.3-red)
 
 
@@ -48,5 +48,5 @@ $ pip ./dist/*.whl install
 $ ./bin/startbrowser
 ```
 
-## License ![MIT License](https://img.shields.io/github/license/trabdlkarim/voce-browser)
-Project under MIT License
+## License ![GPL License](https://img.shields.io/badge/license-GPLv3-green)
+Project under GPL-3.0 License

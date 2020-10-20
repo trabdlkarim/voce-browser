@@ -13,8 +13,8 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView , QWebEnginePage, QWebEngine
 from PyQt5.QtWebEngineWidgets import QWebEngineProfile
 
 import vocebrowser
-from vocebrowser.browserui import BrowserUi
-from vocebrowser.devtoolsui import DevToolsUi
+from vocebrowser.ui.browserui import BrowserUi
+from vocebrowser.ui.devtoolsui import DevToolsUi
 from vocebrowser.assistant.voce import VoceAssistant, AssistantRunnable
 
 

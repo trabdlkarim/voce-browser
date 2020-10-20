@@ -139,32 +139,32 @@ class ResourceUrlSchemeHandler(QWebEngineUrlSchemeHandler):
         if host == self.cssUrl.host() and relativePath != None:
             file = QFile(os.path.join(self.rsrc_dir,host,relativePath), request)
             file.open(QIODevice.ReadOnly)
-            request.reply(b"text/html", file)
+            request.reply(b"text/css", file)
 
         elif host == self.jsUrl.host() and relativePath != None:
             file = QFile(os.path.join(self.rsrc_dir,host,relativePath), request)
             file.open(QIODevice.ReadOnly)
-            request.reply(b"text/html", file)
+            request.reply(b"text/javascript", file)
 
         elif host == self.imagesUrl.host()  and relativePath != None:
             file = QFile(os.path.join(self.rsrc_dir,host,relativePath), request)
             file.open(QIODevice.ReadOnly)
-            request.reply(b"text/html", file)
+            request.reply(b"", file)
 
         elif host == self.fontsUrl.host()  and relativePath != None:
             file = QFile(os.path.join(self.rsrc_dir,host,relativePath), request)
             file.open(QIODevice.ReadOnly)
-            request.reply(b"text/html", file)
+            request.reply(b"", file)
 
         elif host == self.globalUrl.host()  and relativePath != None:
             file = QFile(os.path.join(self.rsrc_dir,relativePath), request)
             file.open(QIODevice.ReadOnly)
-            request.reply(b"text/html", file)
+            request.reply(b"", file)
 
         elif host == self.vendorsUrl.host()  and relativePath != None:
             file = QFile(os.path.join(self.rsrc_dir,host,relativePath), request)
             file.open(QIODevice.ReadOnly)
-            request.reply(b"text/html", file)
+            request.reply(b"",file)
 
         else:
             request.fail(QWebEngineUrlRequestJob.UrlNotFound)

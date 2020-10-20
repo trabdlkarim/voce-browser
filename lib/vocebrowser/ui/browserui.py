@@ -87,6 +87,7 @@ class BrowserUi(object):
 
         self.verticalLayout.addWidget(self.tabWidget)
         self.mainVerticalLayout.addLayout(self.verticalLayout)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")

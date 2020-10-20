@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Tajawal');
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+@import url('voce-resources://vendors/fontawesome/css/all.min.css');
 
 
 a,
@@ -19,9 +19,11 @@ a:focus {
     text-decoration: none;
 }
 
+/*
 .navbar #release-notes a{
   text-decoration: underline !important;
 }
+*/
 #hero {
     font-family: 'Tajawal', sans-serif;
     background:#420C5D /*#73797f*/;
@@ -81,8 +83,7 @@ a:focus {
     margin-bottom: 0;
 }
 .navbar-toggler {
-    background-color: white;
-    border: 1px solid white;
+    color: #fff;
 }
 #hero .search-from{
 	height: 85px;

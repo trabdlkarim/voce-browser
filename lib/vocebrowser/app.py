@@ -29,8 +29,8 @@ def main(argv=sys.argv):
     QtCore.QCoreApplication.setOrganizationName('Voce Browser Fundation')
     QWebEngineSettings.defaultSettings().setAttribute(QWebEngineSettings.PluginsEnabled, True)
 
-    app.setApplicationName(VoceBrowser.appName)
     browser = VoceBrowser()
+    app.setApplicationName(browser.appName)
 
     voceUrlSchemeHandler = VoceUrlSchemeHandler()
     resourceUrlSchemeHandler = ResourceUrlSchemeHandler()

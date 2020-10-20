@@ -6,7 +6,6 @@ Created on Mon Sep 21 18:09:34 2020
 @author: trabdlkarim
 """
 
-
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtCore import QUrl, QObject, QFile, QIODevice
 from PyQt5.QtWidgets import QMessageBox
@@ -15,15 +14,15 @@ from PyQt5.QtWebEngineWidgets import QWebEngineProfile
 
 import vocebrowser
 from vocebrowser.browserui import BrowserUi
-from vocebrowser.assistant.voce import VoceAssistant
-
+from vocebrowser.devtoolsui import DevToolsUi
+from vocebrowser.assistant.voce import VoceAssistant, AssistantRunnable
 
 
 class WebView(QWebEngineView):
 
     devToolsRequested = QtCore.pyqtSignal(QWebEnginePage)
 
-    def __init__(self,parent=None):
+    def __init__(self, parent=None):
         self.parent = parent
         super(WebView,self).__init__(parent)
 
@@ -42,7 +41,7 @@ class WebView(QWebEngineView):
         if winType == QWebEnginePage.WebBrowserTab:
            return self.parent.open_new_tab()
         elif winType == QWebEnginePage.WebBrowserWindow:
-            return VoceBrowser.create_browser_window()
+            return self.parent.parent.create_browser_window()
 
     def reload(self):
         super().reload()
@@ -54,11 +53,28 @@ class WebPage(QWebEnginePage):
     pass
 
 
+class DevToolsWindow(QtWidgets.QMainWindow):
+    def __init__(self,parent,*args, **kwargs):
+        self.parent = parent
+        super(DevToolsWindow, self).__init__(*args, **kwargs)
+        self.ui = DevToolsUi()
+        self.ui.setupUi(self)
 
+    def getDevToolsView(self):
+        return self.ui.devToolsWebView
+
+    def update_win_title(self,url):
+        self.setWindowTitle("DevTools - " + url.toString())
+
+    def closeEvent(self, event):
+        self.parent.devToolsView.page().setInspectedPage(None)
+        event.accept()
+        self.deleteLater()
 
 class BrowserWindow(QtWidgets.QMainWindow):
 
-    def __init__(self,*args,**kwargs):
+    def __init__(self,parent,*args,**kwargs):
+        self.parent = parent
         super(BrowserWindow, self).__init__(*args, **kwargs)
 
         self.ui = BrowserUi()
@@ -68,13 +84,13 @@ class BrowserWindow(QtWidgets.QMainWindow):
         self.ui.goButton.clicked.connect(self.goto_current_url)
 
         self.ui.actionExit.triggered.connect(self.close)
-        self.ui.actionIncognitoWindow.triggered.connect(lambda offMode =True: self.onclick_new_window(offMode))
+        self.ui.actionIncognitoWindow.triggered.connect(lambda offMode =True: self.parent.create_browser_window(offRecord=offMode))
         self.ui.actionHistory.triggered.connect(lambda _, qurl=VoceBrowser.history_url : self.open_new_tab(url=qurl))
         self.ui.actionDownloads.triggered.connect(lambda _, qurl=VoceBrowser.downloads_url : self.open_new_tab(url=qurl))
         self.ui.actionBookmarks.triggered.connect(lambda  _, qurl=VoceBrowser.bookmarks_url : self.open_new_tab(url=qurl))
         self.ui.actionSettings.triggered.connect(lambda  _, qurl=VoceBrowser.settings_url : self.open_new_tab(url=qurl))
 
-        self.ui.actionNewWindow.triggered.connect(self.onclick_new_window)
+        self.ui.actionNewWindow.triggered.connect(self.parent.create_browser_window)
         self.ui.actionNewTab.triggered.connect(self.open_new_tab)
 
         self.ui.actionBack.triggered.connect(lambda:self.ui.tabWidget.currentWidget().back())
@@ -88,11 +104,11 @@ class BrowserWindow(QtWidgets.QMainWindow):
 
         self.setCentralWidget(self.ui.centralwidget)
 
-        VoceBrowser.assistant.signals.search.connect(self.search)
-        VoceBrowser.assistant.signals.openNewTab.connect(self.open_new_tab)
-        VoceBrowser.assistant.signals.closeCurrentTab.connect(lambda: self.onclose_tab(self.ui.tabWidget.currentIndex()))
-        VoceBrowser.assistant.signals.openNewWindow.connect(self.onclick_new_window)
-        VoceBrowser.assistant.signals.closeCurrentWindow.connect(self.close)
+        self.parent.assistant.signals.search.connect(self.search)
+        self.parent.assistant.signals.openNewTab.connect(self.open_new_tab)
+        self.parent.assistant.signals.closeCurrentTab.connect(lambda: self.onclose_tab(self.ui.tabWidget.currentIndex()))
+        self.parent.assistant.signals.openNewWindow.connect(self.parent.create_browser_window)
+        self.parent.assistant.signals.closeCurrentWindow.connect(self.close)
 
 
     def readFile(self,filename):
@@ -123,7 +139,7 @@ class BrowserWindow(QtWidgets.QMainWindow):
         webView.urlChanged.connect(lambda qurl, view = webView: self.update_address_bar(qurl, view))
         webView.titleChanged.connect(lambda title, i = index,view=webView:self.update_tab_title(title,i,view))
         webView.iconChanged.connect(lambda icon,i=index:self.update_favIcon(icon,i))
-        webView.devToolsRequested.connect(self.showDevToolsPage)
+        webView.devToolsRequested.connect(self.parent.create_devtools_window)
 
         webView.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, True)
         webView.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
@@ -154,12 +170,6 @@ class BrowserWindow(QtWidgets.QMainWindow):
         else:
             self.ui.tabWidget.removeTab(i)
 
-    def onclick_new_window(self,offMode=False):
-        new_window = BrowserWindow()
-        new_window.open_new_tab(VoceBrowser.home_url)
-        new_window.show()
-        VoceBrowser.openWindowsCount += 1
-
     def update_address_bar(self, new_url, view=None):
         if view != self.ui.tabWidget.currentWidget():
             return
@@ -172,7 +182,7 @@ class BrowserWindow(QtWidgets.QMainWindow):
     def update_browser_title(self,title="Untitled", view=None):
         if view != self.ui.tabWidget.currentWidget():
             return
-        self.setWindowTitle("%s - %s" % (title,VoceBrowser.appName))
+        self.setWindowTitle("%s - %s" % (title,self.parent.appName))
 
     def go_home(self):
         self.ui.tabWidget.currentWidget().page().setUrl(VoceBrowser.home_url)
@@ -183,9 +193,9 @@ class BrowserWindow(QtWidgets.QMainWindow):
 
         if current_url.isValid():
             if (current_url.scheme() not in  ["voce","voce-resources"]) and ('.' not in self.ui.urlbar.text()):
-                current_url = self.create_search_query(VoceBrowser.search_engine,self.ui.urlbar.text())
+                current_url = self.create_search_query(self.parent.search_engine,self.ui.urlbar.text())
         else:
-            current_url = self.create_search_query(VoceBrowser.search_engine,self.ui.urlbar.text())
+            current_url = self.create_search_query(self.parent.search_engine,self.ui.urlbar.text())
 
         if current_url:
             self.ui.tabWidget.currentWidget().page().setUrl(current_url)
@@ -206,32 +216,30 @@ class BrowserWindow(QtWidgets.QMainWindow):
         return QUrl(query)
 
     def search(self,keywords):
-        query = self.create_search_query(VoceBrowser.search_engine,keywords)
+        query = self.create_search_query(self.parent.search_engine,keywords)
         self.open_new_tab(url=query)
 
 
-    def closeEvent(self, event):
+    def showDevToolsPage(self,page):
+        devToolsView = QWebEngineView()
+        page.setDevToolsPage(devToolsView.page()) # same as devToolsView.page().setInspectedPage(page)
+        i = self.ui.tabWidget.addTab(devToolsView, page.title())
+        self.ui.tabWidget.setCurrentIndex(i)
 
-        if VoceBrowser.openWindowsCount < 2:
+    def closeEvent(self, event):
+        if self.parent.windows < 2:
             answer = QMessageBox.question(self,
                                           "Quit", "Are you sure you want to close this window?",
                                           QMessageBox.Yes | QMessageBox.No)
             if answer == QMessageBox.Yes:
-                VoceBrowser.stop_assistant()
+                self.parent.stop_assistant()
                 event.accept()
                 self.deleteLater()
             else:
                 event.ignore()
         else:
             event.accept()
-            VoceBrowser.openWindowsCount -= 1
-
-    def showDevToolsPage(self,page):
-        devToolsView = QWebEngineView()
-        page.setDevToolsPage(devToolsView.page()) # same as devToolsView.setInspectedPage(page)
-        i = self.ui.tabWidget.addTab(devToolsView, page.title())
-        self.ui.tabWidget.setCurrentIndex(i)
-
+            self.parent.windows -= 1
 
 
 
@@ -243,50 +251,70 @@ class VoceBrowser(QObject):
     settings_url = QUrl('voce://settings')
     bookmarks_url = QUrl('voce://bookmarks')
 
-    appName = "Voce Browser"
-    search_engine ="https://duckduckgo.com/"
-    openWindowsCount = 0
-    openWindowsList = []
-    assistant = VoceAssistant()
+    def __init__(self):
+        super().__init__()
+        self.appName = "Voce Browser"
+        self.search_engine ="https://duckduckgo.com/"
+        self.profile = QWebEngineProfile()
+        self.assistant = VoceAssistant()
+        self.windows = 0
+        self.downloadManager = None
 
-    @staticmethod
-    def create_browser_window(url=None, offRecord=False):
-        window = BrowserWindow()
+
+
+    def create_browser_window(self,url=None, offRecord=False):
+        window = BrowserWindow(self)
+        self.windows += 1
         webView = window.open_new_tab(url)
         window.show()
-        VoceBrowser.openWindowsCount += 1
         return webView
 
+    def create_devtools_window(self,page):
+        self.devToolsWin = DevToolsWindow(self)
+        self.devToolsView = self.devToolsWin.getDevToolsView()
+        profile = QWebEngineProfile.defaultProfile()
+        webPage = WebPage(profile, self)
+        self.devToolsView.setPage(webPage)
+        page.setDevToolsPage(self.devToolsView.page())
+        self.windows += 1
+        self.devToolsView.page().inspectedPage().urlChanged.connect(self.devToolsWin.update_win_title)
+        self.devToolsWin.update_win_title(page.url())
+        self.devToolsWin.show()
+
+    def get_download_manager(self):
+        pass
+
     def launch(self):
-        webView = VoceBrowser.create_browser_window(VoceBrowser.home_url)
-        VoceBrowser.run_assistant()
+        self.create_browser_window(VoceBrowser.home_url)
+        #self.run_assistant()
 
-    @staticmethod
-    def run_assistant():
-        if  not VoceBrowser.assistant.isRunning:
-            assistant_process = AssistantRunnable(VoceBrowser.assistant.run_forever)
+
+    def run_assistant(self):
+        if  not self.assistant.isRunning:
+            assistant_process = AssistantRunnable(self.assistant.run_forever)
             assistant_process.start()
-            VoceBrowser.assistant.isRunning = True
+            self.assistant.isRunning = True
 
-    @staticmethod
-    def stop_assistant():
-        if  VoceBrowser.assistant.isRunning:
-            VoceBrowser.assistant.stop_event.set()
-            VoceBrowser.assistant.isRunning = False
-
+    def stop_assistant(self):
+        if  self.assistant.isRunning:
+            self.assistant.stop_event.set()
+            self.assistant.isRunning = False
 
 
+class DownloadManger(QObject):
+    def downloadRequestHandler(self, downloadItem):
+        qurl, path = QtWidgets.QFileDialog.getSaveFileName(
+            self,"Save as",
+            QtCore.QDir(downloadItem.downloadDirectory()).filePath(downloadItem.downloadFileName()))
+
+        if not path:
+            return
+
+        downloadItem.setDownloadDirectory(QtCore.QFileInfo(path).path())
+        downloadItem.setDownloadFileName(QtCore.QFileInfo(path).fileName())
+        downloadItem.accept()
 
 
-class AssistantRunnable(QtCore.QRunnable):
-    def __init__(self,target,*args,**kwargs):
-        super(AssistantRunnable,self).__init__()
-        self.target = target
-        self.args = args
-        self.kwargs = kwargs
-
-    def run(self):
-        self.target(*self.args,**self.kwargs)
-
-    def start(self):
-        QtCore.QThreadPool.globalInstance().start(self)
+class DownloadWidget(QtWidgets.QWidget):
+    def __init__(self,downloadItem,parent):
+        pass

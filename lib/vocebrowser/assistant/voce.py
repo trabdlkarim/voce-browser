@@ -194,3 +194,18 @@ class VoceAssistant(QtCore.QObject):
                     self.do_exit_browser()
                 else:
                     self.speak("Sorry, I did not get that. Please repeat again!")
+
+
+
+class AssistantRunnable(QtCore.QRunnable):
+    def __init__(self,target,*args,**kwargs):
+        super(AssistantRunnable,self).__init__()
+        self.target = target
+        self.args = args
+        self.kwargs = kwargs
+
+    def run(self):
+        self.target(*self.args,**self.kwargs)
+
+    def start(self):
+        QtCore.QThreadPool.globalInstance().start(self)

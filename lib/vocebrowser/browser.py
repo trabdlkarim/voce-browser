@@ -286,7 +286,7 @@ class VoceBrowser(QObject):
 
     def launch(self):
         self.create_browser_window(VoceBrowser.home_url)
-        #self.run_assistant()
+        self.run_assistant()
 
 
     def run_assistant(self):

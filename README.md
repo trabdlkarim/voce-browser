@@ -33,7 +33,7 @@ This project is created with:
 ## Setup
 To run the browser, first download or git clone this project and then install it locally in your Python environment as described below.
 
-Supposing that you have already Python3 and pip3 installed on your system, from the terminal change the current directory to the project root directory. Proceed then as follows:
+Supposing that you have already **Python3** and **pip3** installed on your system, from the terminal change the current directory to the project root directory. Proceed then as follows:
 
 ```
 $ python3 setup.py build
@@ -49,8 +49,8 @@ $ pip3 ./dist/*.whl install
 $ ./bin/startbrowser
 ```
 Note:
-> If you want the scripts or commands in the project bin directory to be system wide, just create a bin directory (if does not exist) in your home directory. And copy the scripts in your home bin dir.
-Finally add it to the path env variable and your  done.
+> If you want the **commands** in the **project bin** directory to be system wide, just create a bin directory (if does not exist) in your **home directory**. And copy the scripts in your home bin dir.
+Finally add it to the **path** env variable and your  done.
 
 ## License ![GPL License](https://img.shields.io/badge/license-GPLv3-green)
 Project under GPL-3.0 License

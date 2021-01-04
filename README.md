@@ -31,19 +31,19 @@ This project is created with:
 * pydub
 	
 ## Setup
-To run the browser, first download or git clone this project and then install it locally in your python environment.
-Supposing that you are in the project root directory, proceed as follows:
+To run the browser, first download or git clone this project and then install it locally in your Python environment as described below.
+Supposing that you have already Python3 and pip3 installed on your system, from the terminal change the current directory to the project root directory. Proceed now as follows:
 
 ```
-$ python setup.py build
-$ python setup.py install
+$ python3 setup.py build
+$ python3 setup.py install
 $ vocebrowser
 ```
 
-or
+or install a wheel distribution
 
 ```
-$ python setup.py bdist_wheel
+$ python3 setup.py bdist_wheel
 $ pip ./dist/*.whl install
 $ ./bin/startbrowser
 ```

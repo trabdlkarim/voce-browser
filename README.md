@@ -60,7 +60,7 @@ Notes:
 > If you want the **commands** in the **project bin** directory to be system wide, just create a bin directory (if does not exist) in your **home directory**. And copy the scripts in your home bin dir.
 Finally add it to the **path** env variable and you're  done.
 
-> The pydub module depends on  on **ffmpeg** to render audio files so make sure it is installed on your system. For example, on Ubuntu you can install it with the following command: *sudo apt install ffmpeg*  
+> The **pydub** module depends on **FFmpeg** package to render audio files so make sure it is installed on your system. For example, on Ubuntu you can install it with the following command: *sudo apt install ffmpeg*. For more information go to: https://ffmpeg.org/  
 
 ## License ![GPL License](https://img.shields.io/badge/license-GPLv3-green)
 

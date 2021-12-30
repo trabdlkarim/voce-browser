@@ -66,16 +66,29 @@ class VoceAssistant(QtCore.QObject):
 
     def listen(self):
         with speech.Microphone() as mic:
-            text_data = ""
-            voice_data  = self.recognizer.listen(mic,5,5)
+            
+            text_data = None
+            
             try:
+                voice_data  = self.recognizer.listen(mic,300) 
                 text_data = self.recognizer.recognize_google(voice_data)
+                
             except speech.UnknownValueError:
                 pass
+            
             except speech.RequestError:
                 self.speak("Sorry, the service is down")
+                
+            except speech.WaitTimeoutError:
+                self.speak("Oops, I hear nothing.")
+                
+            except Exception:
+                self.speak("Sorry, something went wrong.")
 
-            return text_data.lower()
+            if text_data:
+                return text_data.lower()
+            else:
+                return text_data
 
     def speak(self,text):
         try:
@@ -190,10 +203,10 @@ class VoceAssistant(QtCore.QObject):
                 elif self.check_voice_cmd(["reload page","reload current page","refresh page"],voice_cmd):
                     self.do_reload_page()
 
-                elif self.check_voice_cmd(["exit","quit"],voice_cmd):
+                elif self.check_voice_cmd(["exit","quit", "bye"],voice_cmd):
                     self.do_exit_browser()
                 else:
-                    self.speak("Sorry, I did not get that. Please repeat again!")
+                    self.speak("Sorry, I didn't get you. Please could you repeat?")
 
 
 

@@ -26,6 +26,19 @@ This project uses the Qt GUI library Python binding as user interface. Voce Brow
 
 Voce has all standard browser features, and plus voice commands capabilities.
 
+### Supported Voice Commands
+
+- Open tab: Open a new tab.
+- Close tab: close current tab
+- Open window: Open a new window.
+- Close window: close current window
+- Search: Search for a keyword. This command should be followed by a keyword.
+- Go back: go back to the previous page if any
+- Go forward: go to the next page if any
+- Go home: go to the default homepage
+- Reload page: Reload the current page
+- Exit, bye and quit: Close all windows and exit the browser
+
 ## Dependencies
 
 This project is created with:

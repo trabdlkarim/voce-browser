@@ -56,24 +56,48 @@ To run the browser, first download or git clone this project and then install it
 Supposing that you have already **Python3** and **pip3** installed on your system, from the terminal change the current directory to the project root directory. Proceed then as follows:
 
 ```
-$ python3 setup.py build
-$ python3 setup.py install
-$ vocebrowser
+python3 setup.py build
+python3 setup.py install
+vocebrowser
 ```
 
 or install a wheel distribution
 
 ```
-$ python3 setup.py bdist_wheel
-$ pip3 ./dist/*.whl install
-$ ./bin/startbrowser
+python3 setup.py bdist_wheel
+pip3 ./dist/*.whl install
+./bin/startbrowser
 ```
 
-Notes:
+## Notes:
+
+### Running Commands System-wide
+
 > If you want the **commands** in the **project bin** directory to be system wide, just create a bin directory (if does not exist) in your **home directory**. And copy the scripts in your home bin dir.
 Finally add it to the **path** env variable and you're  done.
 
-> The **pydub** module depends on **FFmpeg** package to render audio files so make sure it is installed on your system. For example, on Ubuntu you can install it with the following command: *sudo apt install ffmpeg*. For more information go to: https://ffmpeg.org/  
+### Pydub Module
+
+> The **pydub** module depends on **FFmpeg** package to render audio files so make sure it is installed on your system. For example, on Ubuntu you can install it with the following command: ***sudo apt install ffmpeg***. For more information go to: https://ffmpeg.org/  
+
+### PyAudio Module
+
+> If having troubles on installing PyAudio with Python higher than 3.7, then you should first try to the install the following packages as follows:
+
+For Linux (Ubuntu)
+
+```
+sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
+pip install pyaudio
+```
+
+For Wındows
+```
+pip install pipwin
+pipwin install pyaudio
+```
+
+
 
 ## License 
 
